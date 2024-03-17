@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ヴァンパイアサバイバー風ゲーム</title>
+  <style>
+    canvas {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // プレイヤーの設定
+    const player = {
+      x: 400,
+      y: 500,
+      width: 30,
+      height: 30,
+      speed: 5,
+      health: 100
+    };
+
+    // 敵の設定
+    const enemies = [];
+
+    // ゲームループ
+    function gameLoop() {
+      // 背景をクリア
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // プレイヤーを描画
+      ctx.fillStyle = 'green';
+      ctx.fillRect(player.x, player.y, player.width, player.height);
+
+      // 敵を描画
+      ctx.fillStyle = 'red';
+      for (const enemy of enemies) {
+        ctx.fillRect(enemy.x, enemy.y, 20, 20);
+      }
+
+      // プレイヤーの移動
+      if (keys.left && player.x > 0) {
+        player.x -= player.speed;
+      }
+      if (keys.right && player.x < canvas.width - player.width) {
+        player.x += player.speed;
+      }
+      if (keys.up && player.y > 0) {
+        player.y -= player.speed;
+      }
+      if (keys.down && player.y < canvas.height - player.height) {
+        player.y += player.speed;
+      }
+
+      // 次のフレームを要求
+      requestAnimationFrame(gameLoop);
+    }
+
+    // キー入力の処理
+    const keys = {};
+    document.addEventListener('keydown', (event) => {
+      keys[event.code] = true;
+    });
+    document.addEventListener('keyup', (event) => {
+      keys[event.code] = false;
+    });
+
+    // ゲームの開始
+    gameLoop();
+  </script>
+</body>
+</html>
